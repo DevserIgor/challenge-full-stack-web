@@ -3,12 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
-  "script": {
+  "scripts": {
+    "start": "ts-node-dev -r tsconfig-paths/register ./src/shared/http/server.ts",
+    "build": "tsc",
+    "serve": "node dist/server.js",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
     "format": "prettier --config .prettierrc 'src/**/*.ts' --write"
   },
   "devDependencies": {
+    "@types/node": "^20.11.17",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "eslint": "^8.56.0",
@@ -23,5 +27,12 @@
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "*"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "class-transformer": "^0.5.1",
+    "fastify": "^4.26.0",
+    "typeorm": "^0.3.20",
+    "typeorm-pagination": "^2.0.3"
   }
 }
