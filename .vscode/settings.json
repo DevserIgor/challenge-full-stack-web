@@ -1,5 +1,35 @@
-{
-        "conventionalCommits.scopes": [
-                "Config"
-        ]
+{       
+	"editor.fontLigatures": true,
+	"editor.cursorBlinking": "phase",
+	"editor.cursorWidth": 2,
+	"editor.tabSize": 8,
+	
+	"material-icon-theme.folders.color": "#37c886",
+	"material-icon-theme.folders.theme": "specific",
+	"terminal.integrated.fontSize": 16,
+	"terminal.integrated.fontWeightBold": "600",
+	"terminal.integrated.fontWeight": "300",
+	
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[javascriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"editor.quickSuggestions": {
+		"strings": "on"
+	},
+	
 }
