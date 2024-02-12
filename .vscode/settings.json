@@ -32,7 +32,8 @@
 		"strings": "on"
 	},
 	"conventionalCommits.scopes": [
-		"config"
+		"config",
+		"Implements"
 	],
 	
 }
