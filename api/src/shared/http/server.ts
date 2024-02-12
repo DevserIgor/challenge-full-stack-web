@@ -1,4 +1,6 @@
+import 'reflect-metadata';
 import 'dotenv/config';
+import '@shared/typeorm';
 import fastify from 'fastify';
 import cors from '@fastify/cors';
 import { routes } from './routes';

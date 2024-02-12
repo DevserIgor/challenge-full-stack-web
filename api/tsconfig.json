@@ -30,7 +30,10 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "target": "es2021",
-    "types": ["node"]
+    "types": ["node"],
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "strictPropertyInitialization": false,
   },
   "exclude": ["node_modules", "dist", "tests"],
   "include": ["src/**/*"]
