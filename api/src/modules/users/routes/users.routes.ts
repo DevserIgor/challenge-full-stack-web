@@ -21,4 +21,10 @@ export const usersRoutes = async (
     { ...UserValidationSchemas.showUserSchema },
     usersController.show.bind(usersController),
   );
+
+  fastify.delete(
+    '/:id',
+    { ...UserValidationSchemas.deleteUserSchema },
+    usersController.delete.bind(usersController),
+  );
 };

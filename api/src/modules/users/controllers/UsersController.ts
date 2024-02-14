@@ -9,6 +9,7 @@ import {
   IParamsRequestUserShow,
 } from '../@types/userTypes';
 import ShowUserService from '../services/ShowUserService';
+import DeleteUserService from '../services/DeleteUserService';
 
 export default class UsersController {
   private usersRepository: UsersRepository;
@@ -48,5 +49,17 @@ export default class UsersController {
 
     const user = await showUserService.execute({ id });
     return reply.send(instanceToInstance(user));
+  }
+
+  public async delete(
+    request: FastifyRequest<{ Params: IParamsRequestUserShow }>,
+    reply: FastifyReply,
+  ): Promise<FastifyReply> {
+    const { id } = request.params;
+
+    const deleteUserService = new DeleteUserService(this.usersRepository);
+
+    await deleteUserService.execute({ id });
+    return reply.send([]);
   }
 }
