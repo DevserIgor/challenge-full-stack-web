@@ -4,7 +4,15 @@ import '@shared/typeorm';
 import fastify from 'fastify';
 import cors from '@fastify/cors';
 import { routes } from './routes';
-const app = fastify({ logger: true });
+const app = fastify({
+  logger: true,
+  ajv: {
+    customOptions: {
+      allErrors: true,
+    },
+    plugins: [require('ajv-errors')],
+  },
+});
 
 app.setErrorHandler((error, request, reply) => {
   reply.code(400).send({

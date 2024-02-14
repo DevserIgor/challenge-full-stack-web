@@ -38,6 +38,7 @@
    },
    "dependencies": {
       "@fastify/cors": "^9.0.1",
+      "ajv-errors": "^3.0.0",
       "class-transformer": "^0.5.1",
       "dotenv": "^16.4.2",
       "fastify": "^4.26.0",
