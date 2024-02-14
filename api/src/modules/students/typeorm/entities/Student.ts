@@ -8,7 +8,7 @@ import {
 
 @Entity()
 class Student {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   ra: number;
 
   @Column()

@@ -1,0 +1,11 @@
+import { createStudentSchema } from './createStudentSchema';
+import { showStudentSchema } from './showStudentSchema';
+import { deleteStudentSchema } from './deleteStudentSchema';
+import { updateStudentSchema } from './updateStudentSchema';
+
+export const StudentValidationSchemas = {
+  createStudentSchema,
+  showStudentSchema,
+  deleteStudentSchema,
+  updateStudentSchema,
+};
