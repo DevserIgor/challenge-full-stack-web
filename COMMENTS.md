@@ -12,6 +12,7 @@ Este projeto é um desafio para a vaga fullstack no Grupo + Educação. A API é
 
 O projeto está dividido em duas principais partes:
 
+- `api`: contém o projeto do backend.
 - `api/modules`: Contém os recursos do projeto, incluindo módulos como aluno e usuário.
 - `api/shared`: Contém configurações compartilhadas entre os módulos, como rotas, middlewares, utils, etc.
 
