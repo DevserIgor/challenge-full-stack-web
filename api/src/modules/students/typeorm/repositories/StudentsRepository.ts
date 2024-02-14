@@ -1,28 +1,50 @@
-import Student from '@modules/students/typeorm/entities/Student';
 import { Repository } from 'typeorm';
+import Student from '../entities/Student';
+import { DataSource } from 'typeorm';
 
-interface IStudentsRepository {
-  findByRa(ra: number): Promise<Student | null>;
-  findByEmail(email: string): Promise<Student | null>;
-  findAll(): Promise<Student[]>;
-}
+class StudentsRepository extends Repository<Student> {
+  constructor(dataSource: DataSource) {
+    super(Student, dataSource.createEntityManager());
+  }
 
-class StudentsRepository
-  extends Repository<Student>
-  implements IStudentsRepository
-{
-  public async findByRa(ra: number): Promise<Student | null> {
-    return this.findOne({
-      where: { ra },
+  public async findByName(name: string): Promise<Student | null> {
+    const student = await this.findOne({
+      where: {
+        name,
+      },
     });
+
+    return student;
+  }
+
+  public async findByRa(ra: number): Promise<Student | null> {
+    const student = await this.findOne({
+      where: {
+        ra,
+      },
+    });
+
+    return student;
+  }
+
+  public async findBycpf(cpf: string): Promise<Student | null> {
+    const student = await this.findOne({
+      where: {
+        cpf,
+      },
+    });
+
+    return student;
   }
 
   public async findByEmail(email: string): Promise<Student | null> {
-    return this.findOne({ where: { email } });
-  }
+    const Student = await this.findOne({
+      where: {
+        email,
+      },
+    });
 
-  public async findAll(): Promise<Student[]> {
-    return this.find();
+    return Student;
   }
 }
 

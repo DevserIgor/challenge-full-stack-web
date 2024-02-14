@@ -1,16 +1,110 @@
+import { AppDataSource } from '@shared/typeorm/data-source';
+import ListStudentService from '@modules/students/services/ListStudentService';
+import StudentsRepository from '@modules/students/typeorm/repositories/StudentsRepository';
+import { FastifyReply, FastifyRequest } from 'fastify';
+import CreateStudentService from '../services/CreateStudentService';
 import { instanceToInstance } from 'class-transformer';
-import { FastifyRequest, FastifyReply } from 'fastify';
+
+import ShowStudentService from '../services/ShowStudentService';
+import DeleteUserService from '../services/DeleteUserService';
+import UpdateStudentService from '../services/UpdateStudentService';
+import AppError from '@shared/errors/AppError';
+import {
+  IBodyRequestStudentCreate,
+  IParamsRequestStudentShow,
+} from '../@types/studentTypes';
 
 export default class StudentsController {
-  public async index(
-    request: FastifyRequest,
+  private studentsRepository: StudentsRepository;
+
+  constructor() {
+    this.studentsRepository = new StudentsRepository(AppDataSource);
+  }
+
+  public async index() {
+    const listStudentService = new ListStudentService(this.studentsRepository);
+    const students = await listStudentService.execute();
+    return students;
+  }
+
+  public async create(
+    request: FastifyRequest<{ Body: IBodyRequestStudentCreate }>,
     reply: FastifyReply,
-  ): Promise<Response> {
-    // const { name } = request.query;
-    const listStudents = new ListStudentsService();
+  ): Promise<FastifyReply> {
+    const { name, email, cpf } = request.body;
 
-    const students = await listStudents.execute();
+    if (!request.jwtPayload.user.user_admin) {
+      throw new AppError('Sem permissão.');
+    }
 
-    return reply.send(instanceToInstance(students));
+    const createStudent = new CreateStudentService(this.studentsRepository);
+    const student = await createStudent.execute({
+      name,
+      email,
+      cpf: cpf.replace(/\D/g, ''),
+    });
+
+    return reply.code(201).send({
+      success: true,
+      message: 'Aluno criado com sucesso',
+      student: instanceToInstance(student),
+    });
+  }
+
+  public async show(
+    request: FastifyRequest<{ Params: IParamsRequestStudentShow }>,
+    reply: FastifyReply,
+  ): Promise<FastifyReply> {
+    const { ra } = request.params;
+
+    const showStudentService = new ShowStudentService(this.studentsRepository);
+
+    const student = await showStudentService.execute({ ra });
+    return reply.send(instanceToInstance(student));
+  }
+
+  public async update(
+    request: FastifyRequest<{
+      Body: IBodyRequestStudentCreate;
+      Params: IParamsRequestStudentShow;
+    }>,
+    reply: FastifyReply,
+  ): Promise<FastifyReply> {
+    const { name, email, cpf } = request.body;
+    const { ra } = request.params;
+
+    if (!request.jwtPayload.user.user_admin) {
+      throw new AppError('Sem permissão.');
+    }
+
+    const updateStudent = new UpdateStudentService(this.studentsRepository);
+    const student = await updateStudent.execute({
+      ra,
+      name,
+      email,
+      cpf: cpf.replace(/\D/g, ''),
+    });
+
+    return reply.code(201).send({
+      success: true,
+      message: 'Usuário Alterado com sucesso',
+      student: instanceToInstance(student),
+    });
+  }
+
+  public async delete(
+    request: FastifyRequest<{ Params: IParamsRequestStudentShow }>,
+    reply: FastifyReply,
+  ): Promise<FastifyReply> {
+    const { ra } = request.params;
+
+    if (!request.jwtPayload.user.user_admin) {
+      throw new AppError('Sem permissão.');
+    }
+
+    const deleteUserService = new DeleteUserService(this.studentsRepository);
+
+    await deleteUserService.execute({ ra });
+    return reply.send([]);
   }
 }
