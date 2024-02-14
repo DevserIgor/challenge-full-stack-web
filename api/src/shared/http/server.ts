@@ -4,6 +4,7 @@ import '@shared/typeorm';
 import fastify from 'fastify';
 import cors from '@fastify/cors';
 import { routes } from './routes';
+import { isAuthenticated } from './middlewares/isAuthenticated';
 const app = fastify({
   logger: true,
   ajv: {
@@ -13,6 +14,8 @@ const app = fastify({
     plugins: [require('ajv-errors')],
   },
 });
+
+app.decorate('auth', isAuthenticated);
 
 app.setErrorHandler((error, request, reply) => {
   reply.code(400).send({

@@ -41,6 +41,7 @@
       "ajv-errors": "^3.0.0",
       "class-transformer": "^0.5.1",
       "dotenv": "^16.4.2",
+      "fast-jwt": "^3.3.3",
       "fastify": "^4.26.0",
       "pg": "^8.4.0",
       "reflect-metadata": "^0.1.13",

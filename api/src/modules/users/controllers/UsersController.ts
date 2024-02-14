@@ -11,6 +11,7 @@ import {
 import ShowUserService from '../services/ShowUserService';
 import DeleteUserService from '../services/DeleteUserService';
 import UpdateUserService from '../services/UpdateUserService';
+import AppError from '@shared/errors/AppError';
 
 export default class UsersController {
   private usersRepository: UsersRepository;
@@ -30,6 +31,11 @@ export default class UsersController {
     reply: FastifyReply,
   ): Promise<FastifyReply> {
     const { name, email, password, user_admin } = request.body;
+    console.log('request.jwtPayload', request.jwtPayload);
+
+    if (!request.jwtPayload.user.user_admin) {
+      throw new AppError('Sem permissão.');
+    }
 
     const createUser = new CreateUserService(this.usersRepository);
     const user = await createUser.execute({
@@ -67,6 +73,10 @@ export default class UsersController {
     const { name, email, password, user_admin } = request.body;
     const { id } = request.params;
 
+    if (!request.jwtPayload.user.user_admin) {
+      throw new AppError('Sem permissão.');
+    }
+
     const updateUser = new UpdateUserService(this.usersRepository);
     const user = await updateUser.execute({
       id,
@@ -87,6 +97,10 @@ export default class UsersController {
     reply: FastifyReply,
   ): Promise<FastifyReply> {
     const { id } = request.params;
+
+    if (!request.jwtPayload.user.user_admin) {
+      throw new AppError('Sem permissão.');
+    }
 
     const deleteUserService = new DeleteUserService(this.usersRepository);
 
