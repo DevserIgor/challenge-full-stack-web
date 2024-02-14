@@ -3,3 +3,7 @@ export interface IBodyRequestUserCreate {
   email: string;
   password: string;
 }
+
+export interface IParamsRequestUserShow {
+  id: string;
+}

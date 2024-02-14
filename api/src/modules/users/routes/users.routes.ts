@@ -15,4 +15,10 @@ export const usersRoutes = async (
     { ...UserValidationSchemas.createUserSchema },
     usersController.create.bind(usersController),
   );
+
+  fastify.get(
+    '/:id',
+    { ...UserValidationSchemas.showUserSchema },
+    usersController.show.bind(usersController),
+  );
 };
