@@ -29,10 +29,15 @@ export default class UsersController {
     request: FastifyRequest<{ Body: IBodyRequestUserCreate }>,
     reply: FastifyReply,
   ): Promise<FastifyReply> {
-    const { name, email, password } = request.body;
+    const { name, email, password, user_admin } = request.body;
 
     const createUser = new CreateUserService(this.usersRepository);
-    const user = await createUser.execute({ name, email, password });
+    const user = await createUser.execute({
+      name,
+      email,
+      password,
+      user_admin: user_admin,
+    });
     return reply.code(201).send({
       success: true,
       message: 'Usuário criado com sucesso',
@@ -59,11 +64,17 @@ export default class UsersController {
     }>,
     reply: FastifyReply,
   ): Promise<FastifyReply> {
-    const { name, email, password } = request.body;
+    const { name, email, password, user_admin } = request.body;
     const { id } = request.params;
 
     const updateUser = new UpdateUserService(this.usersRepository);
-    const user = await updateUser.execute({ id, name, email, password });
+    const user = await updateUser.execute({
+      id,
+      name,
+      email,
+      password,
+      user_admin: user_admin,
+    });
     return reply.code(201).send({
       success: true,
       message: 'Usuário Alterado com sucesso',

@@ -8,11 +8,18 @@ interface IRequest {
   name: string;
   email: string;
   password: string;
+  user_admin: boolean;
 }
 class UpdateUserService {
   constructor(private usersRepository: UsersRepository) {}
 
-  public async execute({ id, name, email, password }: IRequest): Promise<User> {
+  public async execute({
+    id,
+    name,
+    email,
+    password,
+    user_admin,
+  }: IRequest): Promise<User> {
     const user = await this.usersRepository.findById(id);
 
     if (!user) {
@@ -29,6 +36,10 @@ class UpdateUserService {
 
     user.name = name;
     user.email = email;
+
+    if (user_admin !== undefined && user.user_admin !== user_admin) {
+      user.user_admin = user_admin;
+    }
 
     if (password) {
       const hashedPassword = await hash(password, 8);
