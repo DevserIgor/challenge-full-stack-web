@@ -47,6 +47,12 @@ export const updateUserSchema = {
               'A senha deve conter no mínimo 6 caracteres, incluindo letras, números e caracteres especiais.',
           },
         },
+        user_admin: {
+          type: 'boolean',
+          errorMessage: {
+            type: 'Precisa informar um valor booleano.',
+          },
+        },
       },
       required: ['name', 'email'],
       errorMessage: {

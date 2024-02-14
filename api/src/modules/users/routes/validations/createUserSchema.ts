@@ -29,13 +29,20 @@ export const createUserSchema = {
               'A senha deve conter no mínimo 6 caracteres, incluindo letras, números e caracteres especiais.',
           },
         },
+        user_admin: {
+          type: 'boolean',
+          errorMessage: {
+            type: 'Precisa informar um valor booleano.',
+          },
+        },
       },
-      required: ['name', 'email', 'password'],
+      required: ['name', 'email', 'password', 'user_admin'],
       errorMessage: {
         required: {
           name: 'Fala teu nome tchê',
           email: 'tu deve ter um email ai, nem vem.',
           password: 'serio que tu quer criar user sem senha?',
+          user_admin: 'Precisa informar se o usuário é admin ou não.',
         },
       },
     },
