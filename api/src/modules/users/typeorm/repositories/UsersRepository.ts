@@ -1,4 +1,4 @@
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import User from '../entities/User';
 import { DataSource } from 'typeorm';
 
@@ -21,6 +21,20 @@ class UsersRepository extends Repository<User> {
     const user = await this.findOne({
       where: {
         id,
+      },
+    });
+
+    return user;
+  }
+
+  public async findByEmailNoId(
+    id: string,
+    email: string,
+  ): Promise<User | null> {
+    const user = await this.findOne({
+      where: {
+        email: email,
+        id: Not(id),
       },
     });
 

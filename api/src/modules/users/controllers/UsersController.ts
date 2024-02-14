@@ -10,6 +10,7 @@ import {
 } from '../@types/userTypes';
 import ShowUserService from '../services/ShowUserService';
 import DeleteUserService from '../services/DeleteUserService';
+import UpdateUserService from '../services/UpdateUserService';
 
 export default class UsersController {
   private usersRepository: UsersRepository;
@@ -49,6 +50,25 @@ export default class UsersController {
 
     const user = await showUserService.execute({ id });
     return reply.send(instanceToInstance(user));
+  }
+
+  public async update(
+    request: FastifyRequest<{
+      Body: IBodyRequestUserCreate;
+      Params: IParamsRequestUserShow;
+    }>,
+    reply: FastifyReply,
+  ): Promise<FastifyReply> {
+    const { name, email, password } = request.body;
+    const { id } = request.params;
+
+    const updateUser = new UpdateUserService(this.usersRepository);
+    const user = await updateUser.execute({ id, name, email, password });
+    return reply.code(201).send({
+      success: true,
+      message: 'Usuário Alterado com sucesso',
+      user: instanceToInstance(user),
+    });
   }
 
   public async delete(
