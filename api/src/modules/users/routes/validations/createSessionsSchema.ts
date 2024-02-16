@@ -17,8 +17,7 @@ export const createSessionsSchema = {
             '^(?=.*[A-Za-z])(?=.*\\d)(?=.*[@$!%*#?&])[A-Za-z\\d@$!%*#?&]{6,}$',
           errorMessage: {
             type: 'Bad Password',
-            pattern:
-              'A senha deve conter no mínimo 6 caracteres, incluindo letras, números e caracteres especiais.',
+            pattern: 'Email/Senha Inválida',
           },
         },
       },
