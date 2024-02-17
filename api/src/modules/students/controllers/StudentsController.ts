@@ -92,7 +92,7 @@ export default class StudentsController {
 
     return reply.code(201).send({
       success: true,
-      message: 'Usuário Alterado com sucesso',
+      message: 'Aluno Alterado com sucesso',
       student: instanceToInstance(student),
     });
   }
