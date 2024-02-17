@@ -7,3 +7,6 @@ export interface IBodyRequestStudentCreate {
 export interface IParamsRequestStudentShow {
   ra: number;
 }
+export interface IQueryRequestStudentIndex {
+  search?: string;
+}

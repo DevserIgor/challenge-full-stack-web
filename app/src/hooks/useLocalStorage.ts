@@ -1,16 +1,14 @@
-import { ref, watchEffect, onMounted, onUnmounted } from 'vue';
+import { ref, watchEffect } from 'vue';
 
 export const useLocalStorage = <T>(key: string, initialValue?: T) => {
-  const storedValue = ref<T>({ ...initialValue });
+  const storedValue = ref<T>(initialValue!);
   try {
     const item = window.localStorage.getItem(key);
-    console.log({ item });
+
     storedValue.value = item ? JSON.parse(item) : initialValue;
   } catch (error) {
     console.error(error);
   }
-
-  onMounted(() => {});
 
   const setValue = (value: T | ((val: T) => T)): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -41,13 +39,7 @@ export const useLocalStorage = <T>(key: string, initialValue?: T) => {
     }
   };
 
-  onMounted(() => {
-    window.addEventListener('storage', handleStorageChange);
-  });
-
-  onUnmounted(() => {
-    window.removeEventListener('storage', handleStorageChange);
-  });
+  window.addEventListener('storage', handleStorageChange);
 
   // Utiliza watchEffect para reagir a mudanças no valor armazenado e atualizar o localStorage
   watchEffect(() => {

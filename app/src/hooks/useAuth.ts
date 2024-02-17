@@ -1,6 +1,5 @@
 import { UserStorage } from '@/@types/User.types';
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { setToken } from '@/service/api';
 
 export const useAuth = () => {
   const { storedValue, setValue } = useLocalStorage<UserStorage>('user', {
@@ -12,7 +11,6 @@ export const useAuth = () => {
   });
   const login = (useLocalStorage: UserStorage) => {
     setValue(useLocalStorage);
-    setToken(useLocalStorage.token);
   };
 
   const logout = () => {
@@ -27,10 +25,15 @@ export const useAuth = () => {
     return storedValue?.value?.user;
   };
 
+  const getToken = () => {
+    return storedValue?.value?.token;
+  };
+
   return {
     isLogged,
     login,
     logout,
     getUser,
+    getToken,
   };
 };

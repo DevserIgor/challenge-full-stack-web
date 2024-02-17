@@ -5,9 +5,7 @@ import { api } from '@/service/api';
 import { ref } from 'vue';
 import { AxiosError } from 'axios';
 import { useAuth } from '@/hooks/useAuth';
-import { useRouter } from 'vue-router/auto';
 const { login } = useAuth();
-const router = useRouter();
 const { handleSubmit } = useForm({
   validationSchema: {
     email(value: string) {
@@ -48,6 +46,8 @@ const submit = handleSubmit(async (values) => {
 const sendable = () => {
   return !email.errorMessage.value && !password.errorMessage.value;
 };
+email.value.value = 'admin@admin.com';
+password.value.value = '@admin321!';
 </script>
 
 <template>
@@ -80,6 +80,7 @@ const sendable = () => {
           :error-messages="email.errorMessage.value"
           :readonly="loading"
           class="mb-2"
+          v-slot:default=""
           required
           label="E-mail"
         ></v-text-field>

@@ -1,12 +1,16 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-interface SearchProps {
-  onSearch: (search: string) => void;
-}
+const emit = defineEmits(['onSearch']);
+
 const loading = ref(false);
 const search = ref('');
-const props = defineProps<SearchProps>();
+
+const handleSubmit = () => {
+  loading.value = true;
+  emit('onSearch', search.value);
+  loading.value = false;
+};
 </script>
 <template>
   <v-card color="grey-lighten-2" width="400">
@@ -19,7 +23,7 @@ const props = defineProps<SearchProps>();
         append-inner-icon="mdi-magnify"
         single-line
         hide-details
-        @click:append-inner="props.onSearch(search)"
+        @click:append-inner="handleSubmit"
         v-model="search"
       ></v-text-field>
     </v-card-text>
