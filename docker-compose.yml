@@ -11,6 +11,16 @@ services:
       - ./api:/home/node/app
     depends_on:
       - db
+  front:
+    build: api
+    entrypoint: .docker/entrypoint.sh
+    container_name: grupoa-FRONT
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./app:/home/node/front
+    depends_on:
+      - db
 
   db:
     build: .docker/postgres
