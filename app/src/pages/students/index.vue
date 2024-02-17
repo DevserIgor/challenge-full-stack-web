@@ -40,11 +40,23 @@ onMounted(() => {
       <v-card-text class="w-100 d-flex justify-space-between">
         <Search @onSearch="searchstudents" />
 
-        <DefaultButton icon="mdi-plus" @click="router.push('/students/create')">
-          Adicionar aluno
-        </DefaultButton>
+        <v-sheet class="d-flex">
+          <DefaultButton
+            icon="mdi-backspace"
+            @click="router.push('/students/create')"
+          >
+            Limpar
+          </DefaultButton>
+
+          <DefaultButton
+            icon="mdi-plus"
+            @click="router.push('/students/create')"
+          >
+            Adicionar aluno
+          </DefaultButton>
+        </v-sheet>
       </v-card-text>
-      <TableCustom />
+      <TableCustom @onUpdateData="searchstudents" />
     </v-card>
   </v-container>
 </template>

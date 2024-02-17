@@ -13,12 +13,12 @@ const handleSubmit = () => {
 };
 </script>
 <template>
-  <v-card color="grey-lighten-2" width="400">
+  <v-card color="primary" width="400" class="p-0">
     <v-card-text>
       <v-text-field
         :loading="loading"
         density="compact"
-        variant="solo"
+        variant="outlined"
         label="Buscar alunos"
         append-inner-icon="mdi-magnify"
         single-line

@@ -1,23 +1,34 @@
 <script setup lang="ts">
+import { watch } from 'vue';
+
 const isActive = defineModel<boolean>();
 const props = defineProps<{
   title: string;
   message: string;
 }>();
+
+const emit = defineEmits(['onClose']);
+
+const handleClose = () => {
+  isActive.value = false;
+  emit('onClose');
+};
+
+watch([isActive], () => {
+  if (isActive.value == false) {
+    emit('onClose');
+  }
+});
 </script>
 
 <template>
-  <v-dialog width="500" v-model="isActive">
-    <v-card :title="props.title">
-      <v-card-text>
-        {{ props.message }}
-      </v-card-text>
+  <v-snackbar v-model="isActive" color="indigo-lighten-5" vertical>
+    <div class="text-subtitle-1 pb-2">{{ props.title }}</div>
 
-      <v-card-actions>
-        <v-spacer></v-spacer>
+    <p>{{ props.message }}</p>
 
-        <v-btn text="Fechar" @click="isActive = false"></v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+    <template v-slot:actions>
+      <v-btn color="indigo" variant="text" @click="handleClose"> Fechar </v-btn>
+    </template>
+  </v-snackbar>
 </template>

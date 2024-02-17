@@ -39,7 +39,8 @@ onMounted(() => {
 
     <v-list density="compact" nav>
       <v-list-item
-        prepend-icon="mdi-account"
+        color="primary"
+        prepend-icon="mdi-school"
         title="Alunos"
         value="students"
         @click="router.push('/students')"

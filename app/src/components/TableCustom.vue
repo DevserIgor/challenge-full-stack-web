@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, reactive, inject } from 'vue';
+import { DeletStudent } from '@/service/Student.service';
 
+const emit = defineEmits(['onUpdateData']);
 const items = inject('students') as Student[];
-
-console.log('items', items.values);
+const tempStudent = ref({} as Student);
 
 const dialogDelete = ref(false);
 
@@ -22,16 +23,18 @@ const headers = reactive([
   { title: 'Ações', align: 'center', sortable: false, key: 'actions' },
 ]);
 
-const deleteItemConfirm = () => {
+const deleteItemConfirm = async () => {
+  await DeletStudent(tempStudent.value.ra);
   closeDelete();
 };
 
 const closeDelete = () => {
+  emit('onUpdateData', '');
   dialogDelete.value = false;
 };
 
 const deleteStudent = (item: Student) => {
-  console.log('delete', item);
+  tempStudent.value = item;
   dialogDelete.value = true;
 };
 </script>
@@ -63,13 +66,16 @@ const deleteStudent = (item: Student) => {
   >
     <template v-slot:item.actions="{ item }">
       <v-icon
-        size="small"
+        color="primary"
+        size="default"
         class="me-2"
         @click="$router.push(`/students/edit/${item.ra}`)"
       >
         mdi-pencil
       </v-icon>
-      <v-icon size="small" @click="deleteStudent(item)"> mdi-delete </v-icon>
+      <v-icon color="primary" size="default" @click="deleteStudent(item)">
+        mdi-delete
+      </v-icon>
     </template>
   </v-data-table>
 </template>
