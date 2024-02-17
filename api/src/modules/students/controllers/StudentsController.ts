@@ -12,6 +12,7 @@ import AppError from '@shared/errors/AppError';
 import {
   IBodyRequestStudentCreate,
   IParamsRequestStudentShow,
+  IQueryRequestStudentIndex,
 } from '../@types/studentTypes';
 
 export default class StudentsController {
@@ -21,10 +22,14 @@ export default class StudentsController {
     this.studentsRepository = new StudentsRepository(AppDataSource);
   }
 
-  public async index() {
+  public async index(
+    request: FastifyRequest<{ Querystring: IQueryRequestStudentIndex }>,
+    reply: FastifyReply,
+  ) {
+    const { search } = request.query;
     const listStudentService = new ListStudentService(this.studentsRepository);
-    const students = await listStudentService.execute();
-    return students;
+    const students = await listStudentService.execute(search);
+    return reply.send(students);
   }
 
   public async create(

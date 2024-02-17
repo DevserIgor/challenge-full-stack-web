@@ -5,10 +5,13 @@ import StudentsRepository from '../typeorm/repositories/StudentsRepository';
 class ListStudentService {
   constructor(private studentsRepository: StudentsRepository) {}
 
-  public async execute(name?: string): Promise<Student[]> {
+  public async execute(search?: string): Promise<Student[]> {
     const queryBuilder = this.studentsRepository.createQueryBuilder();
-    if (name) {
-      queryBuilder.where({ name: Like(`%${name}%`) });
+    if (search) {
+      queryBuilder
+        .orWhere({ name: Like(`%${search}%`) })
+        .orWhere({ email: Like(`%${search}%`) })
+        .orWhere({ cpf: Like(`%${search}%`) });
     }
     const students = await queryBuilder.addOrderBy('name', 'ASC').getMany();
 

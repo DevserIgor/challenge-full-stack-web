@@ -12,7 +12,11 @@ export const studentsRoutes = async (
 
   fastify
     .addHook('preHandler', isAuthenticated)
-    .get('', studentsController.index.bind(studentsController));
+    .get(
+      '',
+      { ...StudentValidationSchemas.indexStudentSchema },
+      studentsController.index.bind(studentsController),
+    );
 
   fastify
     .addHook('preHandler', isAuthenticated)

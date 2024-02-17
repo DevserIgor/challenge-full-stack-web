@@ -6,6 +6,8 @@ import { ref } from 'vue';
 import { watch } from 'vue';
 import { applyCpfMask } from '@/utils/Masks';
 import { AxiosError } from 'axios';
+import { HandlerError } from '@/service/HandlerError';
+import router from '@/router';
 
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
@@ -27,12 +29,6 @@ const { handleSubmit, handleReset } = useForm({
   },
 });
 
-const initialValues = {
-  name: '',
-  email: '',
-  cpf: '',
-};
-
 const name = useField('name');
 const email = useField('email');
 const cpf = useField('cpf');
@@ -40,13 +36,12 @@ const cpf = useField('cpf');
 const submit = handleSubmit(async (values) => {
   try {
     await api.post('/students', values);
-    $router.push('/students');
+    router.push('/students');
   } catch (error) {
     console.log(error);
     dialog.value.title = 'Erro ao salvar aluno';
-    dialog.value.message = (error as AxiosError).message;
+    dialog.value.message = HandlerError(error as AxiosError);
     dialog.value.active = true;
-    console.error(error);
   }
 });
 

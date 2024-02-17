@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, inject } from 'vue';
+
+const items = inject('students') as Student[];
+
+console.log('items', items.values);
 
 const dialogDelete = ref(false);
 
@@ -18,32 +22,7 @@ const headers = reactive([
   { title: 'Ações', align: 'center', sortable: false, key: 'actions' },
 ]);
 
-let items = ref<Student[]>([]);
-
-function initialize() {
-  items.value = [
-    {
-      ra: '123456',
-      name: 'João da Silva1',
-      email: 'email@gmail.com1',
-      cpf: '123.456.789-001',
-    },
-    {
-      ra: '123456',
-      name: 'João da Silva2',
-      email: 'email@gmail.com2',
-      cpf: '123.456.789-02',
-    },
-  ];
-}
-
-const deleteStudent = (item: Student) => {
-  dialogDelete.value = true;
-  console.log('deleting student', item.ra);
-};
-
 const deleteItemConfirm = () => {
-  console.log('deleting student');
   closeDelete();
 };
 
@@ -51,9 +30,10 @@ const closeDelete = () => {
   dialogDelete.value = false;
 };
 
-onMounted(() => {
-  initialize();
-});
+const deleteStudent = (item: Student) => {
+  console.log('delete', item);
+  dialogDelete.value = true;
+};
 </script>
 
 <template>
@@ -74,10 +54,12 @@ onMounted(() => {
       </v-card-actions>
     </v-card>
   </v-dialog>
+
   <v-data-table
     :headers="(headers as any)"
     :items="items"
     :sort-by="[{ key: 'name', order: 'asc' }]"
+    noDataText="Nenhum registro encontrado"
   >
     <template v-slot:item.actions="{ item }">
       <v-icon
@@ -88,9 +70,6 @@ onMounted(() => {
         mdi-pencil
       </v-icon>
       <v-icon size="small" @click="deleteStudent(item)"> mdi-delete </v-icon>
-    </template>
-    <template v-slot:no-data>
-      <v-btn color="primary" @click="initialize"> Reset </v-btn>
     </template>
   </v-data-table>
 </template>

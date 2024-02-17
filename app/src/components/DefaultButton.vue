@@ -1,15 +1,19 @@
 <script setup lang="ts">
+const emit = defineEmits(['onAddStudent']);
 interface SearchProps {
   icon: string;
-  onAddStudent: () => void;
 }
 const props = defineProps<SearchProps>();
+
+const handleClick = () => {
+  emit('onAddStudent');
+};
 </script>
 <template>
   <v-sheet>
     <v-card-text>
-      <v-btn @click:append-inner="props.onAddStudent()">
-        <v-icon>{{ $props.icon }}</v-icon>
+      <v-btn @click:append-inner="handleClick">
+        <v-icon>{{ props.icon }}</v-icon>
         <slot></slot>
       </v-btn>
     </v-card-text>
