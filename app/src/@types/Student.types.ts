@@ -4,3 +4,11 @@ export type Student = {
   email: string;
   cpf: string;
 };
+
+export type ResponseUpdateStudent = {
+  message: string;
+  student: Student;
+  success: boolean;
+};
+
+export type ResponseCreateStudent = ResponseUpdateStudent;

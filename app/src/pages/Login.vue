@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { useField, useForm } from 'vee-validate';
 import { emailRegex } from '@/utils/Regex';
-import { api } from '@/service/api';
 import { ref } from 'vue';
 import { AxiosError } from 'axios';
 import { useAuth } from '@/hooks/useAuth';
+import { SessionLogin } from '@/service/Auth.service';
+import { User, UserStorage } from '@/@types/User.types';
 const { login } = useAuth();
 const { handleSubmit } = useForm({
   validationSchema: {
@@ -29,14 +30,16 @@ const password = useField('password');
 const submit = handleSubmit(async (values) => {
   try {
     loading.value = true;
-    const response = await api.post('/sessions', values);
-    login({ token: response.data.token, user: response.data.user });
+    const userStorage = await SessionLogin<UserStorage>(values as User);
+    if (!userStorage.token || !userStorage.user) {
+      throw new Error('Email ou senha não encontrado.');
+    }
+    login(userStorage);
 
     loading.value = false;
     window.location.replace('/students');
   } catch (error) {
     loading.value = false;
-    console.log(error);
     errorMessageLogin.value =
       (error as AxiosError<{ message: string }>).response?.data?.message ||
       (error as AxiosError).message;
@@ -46,17 +49,16 @@ const submit = handleSubmit(async (values) => {
 const sendable = () => {
   return !email.errorMessage.value && !password.errorMessage.value;
 };
-email.value.value = 'admin@admin.com';
-password.value.value = '@admin321!';
 </script>
 
 <template>
   <v-sheet
-    class="indigo-lighten-5 h-100 pa-12 d-flex justify-center align-center"
+    color="primary"
+    class="h-100 pa-12 d-flex justify-center align-center"
     rounded
   >
-    <v-card class="px-6 py-8" width="400">
-      <v-sheet class="pa-4" dark rounded>
+    <v-card color="background" class="px-6 py-8" width="400">
+      <v-sheet color="background" class="pa-4" dark rounded>
         <v-img
           rounded
           class="mx-auto"
@@ -80,7 +82,6 @@ password.value.value = '@admin321!';
           :error-messages="email.errorMessage.value"
           :readonly="loading"
           class="mb-2"
-          v-slot:default=""
           required
           label="E-mail"
         ></v-text-field>

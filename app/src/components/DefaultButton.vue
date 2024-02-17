@@ -12,7 +12,7 @@ const handleClick = () => {
 <template>
   <v-sheet>
     <v-card-text>
-      <v-btn @click:append-inner="handleClick">
+      <v-btn color="primary" @click:append-inner="handleClick">
         <v-icon>{{ props.icon }}</v-icon>
         <slot></slot>
       </v-btn>

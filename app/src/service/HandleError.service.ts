@@ -1,11 +1,11 @@
+import { useAuth } from '@/hooks/useAuth';
 import { AxiosError } from 'axios';
-import { HandleLogout } from './HandlerLogout';
-
-export const HandlerError = (Error: AxiosError): string => {
+const { logout } = useAuth();
+export const HandleError = (Error: AxiosError): string => {
   if (Error.response) {
     const response = Error.response.data as { message: string };
     if (response.message === 'Token inválido.') {
-      HandleLogout();
+      logout();
       return 'Sessão expirada';
     }
     return response.message;
