@@ -3,12 +3,14 @@ import { api } from '@/service/api';
 import { ref } from 'vue';
 import { onMounted } from 'vue';
 import { Student } from '@/@types/Student.types';
-import { HandlerError } from '@/service/HandlerError';
 import { AxiosError } from 'axios';
 import { provide } from 'vue';
+import { useRouter } from 'vue-router/auto';
+import { HandleError } from '@/service/HandleError.service';
 
 let students = ref<Student[]>([]);
 provide('students', students);
+const router = useRouter();
 
 const searchstudents = async (search: string) => {
   try {
@@ -23,7 +25,7 @@ const searchstudents = async (search: string) => {
       };
     });
   } catch (error) {
-    HandlerError(error as AxiosError);
+    HandleError(error as AxiosError);
   }
 };
 
@@ -38,10 +40,7 @@ onMounted(() => {
       <v-card-text class="w-100 d-flex justify-space-between">
         <Search @onSearch="searchstudents" />
 
-        <DefaultButton
-          icon="mdi-plus"
-          @onAddStudent="$router.push(`/students/add`)"
-        >
+        <DefaultButton icon="mdi-plus" @click="router.push('/students/create')">
           Adicionar aluno
         </DefaultButton>
       </v-card-text>

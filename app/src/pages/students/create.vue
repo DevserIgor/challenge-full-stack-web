@@ -6,8 +6,8 @@ import { ref } from 'vue';
 import { watch } from 'vue';
 import { applyCpfMask } from '@/utils/Masks';
 import { AxiosError } from 'axios';
-import { HandlerError } from '@/service/HandlerError';
 import router from '@/router';
+import { HandleError } from '@/service/HandleError.service';
 
 const { handleSubmit, handleReset } = useForm({
   validationSchema: {
@@ -40,7 +40,7 @@ const submit = handleSubmit(async (values) => {
   } catch (error) {
     console.log(error);
     dialog.value.title = 'Erro ao salvar aluno';
-    dialog.value.message = HandlerError(error as AxiosError);
+    dialog.value.message = HandleError(error as AxiosError);
     dialog.value.active = true;
   }
 });

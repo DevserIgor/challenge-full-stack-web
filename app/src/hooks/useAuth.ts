@@ -15,6 +15,7 @@ export const useAuth = () => {
 
   const logout = () => {
     setValue({ token: '', user: { name: '', email: '' } });
+    window.location.replace('/login');
   };
 
   const isLogged = () => {

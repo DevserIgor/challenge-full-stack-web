@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import { HandleLogout } from '@/service/HandlerLogout';
+import { useAuth } from '@/hooks/useAuth';
+const { logout } = useAuth();
 </script>
 
 <template>
   <v-app-bar title="Grupo A">
     <template v-slot:append>
-      <v-btn icon @click="HandleLogout"> Sair </v-btn>
+      <v-btn icon @click="logout"> Sair </v-btn>
     </template>
   </v-app-bar>
 </template>
